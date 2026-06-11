@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]
+
+RedirectMatch 404 /data/
+
+<FilesMatch "^(endpoints|db|oink)\.php$">
+	Require all denied
+</FilesMatch>

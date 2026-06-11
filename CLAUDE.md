@@ -1,34 +1,29 @@
 # CLAUDE.md
 
-## Project Structure
+## What this is
 
-Excalidraw is a **monorepo** with a clear separation between the core library and the application:
+A self-hosted Excalidraw served by PHP only. The running server is PHP + SQLite (no Node at
+runtime); Node/yarn are used solely to rebuild the editor bundle into `static/`.
 
-- **`packages/excalidraw/`** - Main React component library published to npm as `@excalidraw/excalidraw`
-- **`excalidraw-app/`** - Full-featured web application (excalidraw.com) that uses the library
-- **`packages/`** - Core packages: `@excalidraw/common`, `@excalidraw/element`, `@excalidraw/math`, `@excalidraw/utils`
-- **`examples/`** - Integration examples (NextJS, browser script)
+## Structure
 
-## Development Workflow
+- `index.php` - routes `/api/*` through oink, serves the app shell otherwise
+- `endpoints.php` - API endpoints (auth, scene, library); `db.php` - SQLite layer; `oink.php` - the framework
+- `.htaccess` - sends non-file requests to `index.php`, blocks `data/` and the PHP includes
+- `static/` - prebuilt editor (committed, so deploying needs no build)
+- `app/` - frontend source (Vite) that mounts `<Excalidraw>` and wires storage to the API
+- `packages/` - Excalidraw editor source, built by `build:packages`
 
-1. **Package Development**: Work in `packages/*` for editor features
-2. **App Development**: Work in `excalidraw-app/` for app-specific features
-3. **Testing**: Always run `yarn test:update` before committing
-4. **Type Safety**: Use `yarn test:typecheck` to verify TypeScript
-
-## Development Commands
+## Commands
 
 ```bash
-yarn test:typecheck  # TypeScript type checking
-yarn test:update     # Run all tests (with snapshot updates)
-yarn fix             # Auto-fix formatting and linting issues
+yarn install   # node 18+; .yarnrc ignores engine checks
+yarn build     # build packages + bundle app into static/ + copy fonts
+yarn dev       # build packages, then run the app with Vite dev server
 ```
 
-## Architecture Notes
+## Notes
 
-### Package System
-
-- Uses Yarn workspaces for monorepo management
-- Internal packages use path aliases (see `vitest.config.mts`)
-- Build system uses esbuild for packages, Vite for the app
-- TypeScript throughout with strict configuration
+- The web server user must be able to write `data/` (the SQLite db lives in `data/data.db`).
+- After any `yarn build`, `static/` is regenerated; `index.php` references the stable
+  `static/assets/app.js` and `static/assets/app.css` names produced by the Vite config.

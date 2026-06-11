@@ -1,0 +1,18 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@excalidraw/excalidraw": "*",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "vite": "5.0.12"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build && node -e \"require('fs').cpSync('../packages/excalidraw/dist/prod/fonts','../static/excalidraw-assets/fonts',{recursive:true})\""
+  }
+}
