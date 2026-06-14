@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/db.php";
-use function Oink\{str, any, check};
+use function Oink\{str, any, id, check};
 
 function _cookie_path() {
 	return rtrim(str_replace("\\", "/", dirname($_SERVER["SCRIPT_NAME"])), "/") . "/";
@@ -56,16 +56,44 @@ function whoami() {
 	return ["username" => $user ? $user["username"] : null];
 }
 
+function _owned_scene($user) {
+	$scene_id = id("id");
+	check(DB\scene_owned($scene_id, $user["id"]), "notFound");
+	return $scene_id;
+}
+
+function scene_list() {
+	$user = _require_user();
+	return ["scenes" => DB\list_scenes($user["id"])];
+}
+
+function scene_create() {
+	$user = _require_user();
+	$name = str("name", min: 1, max: 100, optional: true, default: "Untitled");
+	return ["id" => (int) DB\create_scene($user["id"], $name), "name" => $name];
+}
+
+function scene_rename() {
+	$user = _require_user();
+	$scene_id = _owned_scene($user);
+	DB\rename_scene($scene_id, $user["id"], str("name", min: 1, max: 100));
+}
+
+function scene_delete() {
+	$user = _require_user();
+	DB\delete_scene(_owned_scene($user), $user["id"]);
+}
+
 function scene_load() {
 	$user = _require_user();
-	$data = DB\load_scene($user["id"]);
+	$data = DB\load_scene(_owned_scene($user), $user["id"]);
 	return ["data" => $data === null ? null : json_decode($data, true)];
 }
 
 function scene_save() {
 	$user = _require_user();
-	$data = any("data");
-	DB\save_scene($user["id"], json_encode($data, JSON_UNESCAPED_UNICODE));
+	$scene_id = _owned_scene($user);
+	DB\save_scene($scene_id, $user["id"], json_encode(any("data"), JSON_UNESCAPED_UNICODE));
 }
 
 function library_load() {
@@ -78,4 +106,15 @@ function library_save() {
 	$user = _require_user();
 	$data = any("data");
 	DB\save_library($user["id"], json_encode($data, JSON_UNESCAPED_UNICODE));
+}
+
+function prefs_load() {
+	$user = _require_user();
+	$data = DB\load_prefs($user["id"]);
+	return ["prefs" => $data === null ? null : json_decode($data, true)];
+}
+
+function prefs_save() {
+	$user = _require_user();
+	DB\save_prefs($user["id"], json_encode(any("data"), JSON_UNESCAPED_UNICODE));
 }

@@ -1,0 +1,42 @@
+{
+	"type": "excalidrawlib",
+	"version": 2,
+	"source": "https://pi.jcarlosroldan.com/excalidraw",
+	"libraryItems": [
+		{
+			"id": "test-fixture-shape",
+			"status": "published",
+			"created": 1700000000000,
+			"name": "Test Shape",
+			"elements": [
+				{
+					"type": "rectangle",
+					"version": 1,
+					"versionNonce": 1,
+					"isDeleted": false,
+					"id": "test-fixture-rect",
+					"fillStyle": "solid",
+					"strokeWidth": 2,
+					"strokeStyle": "solid",
+					"roughness": 1,
+					"opacity": 100,
+					"angle": 0,
+					"x": 0,
+					"y": 0,
+					"strokeColor": "#1e1e1e",
+					"backgroundColor": "#a5d8ff",
+					"width": 100,
+					"height": 80,
+					"seed": 1,
+					"groupIds": [],
+					"frameId": null,
+					"roundness": null,
+					"boundElements": [],
+					"updated": 1700000000000,
+					"link": null,
+					"locked": false
+				}
+			]
+		}
+	]
+}

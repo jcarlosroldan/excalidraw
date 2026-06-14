@@ -1,4 +1,5 @@
 .DS_Store
+/tests/snapshots/
 .env.development.local
 .env.local
 .env.production.local

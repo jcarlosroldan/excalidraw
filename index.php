@@ -11,7 +11,7 @@ Oink\serve(__DIR__ . "/endpoints.php", base_path: $base . "/api");
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="theme-color" content="#121212">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E✏️%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="static/favicon.svg">
 <title>Excalidraw</title>
 <link rel="stylesheet" href="static/assets/app.css">
 <script>window.EXCALIDRAW_ASSET_PATH = new URL("static/excalidraw-assets/", document.baseURI).href;</script>
